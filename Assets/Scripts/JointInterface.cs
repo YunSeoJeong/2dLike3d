@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class JointInterface : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private UpperJoint _upperJoint;
+    private LowerJoint _lowerJoint;
 
-    // Update is called once per frame
-    void Update()
+    [Range(0.01f, 10f)]
+    public float scale = 1f;
+
+    private void Update()
     {
-        
+        _upperJoint.position = transform.position;
+        _lowerJoint.position = transform.position;
     }
 }

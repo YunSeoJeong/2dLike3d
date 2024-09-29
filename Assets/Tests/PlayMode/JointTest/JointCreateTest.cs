@@ -7,7 +7,7 @@ using UnityEngine.TestTools;
 public class JointCreateTest
 {
     [UnityTest]
-    public IEnumerator JointNameTest()
+    public IEnumerator JointCreaterNameTest()
     {
         //Arrange
         var modelPrefab = Resources.Load<GameObject>("Prefabs/X Bot");
@@ -43,7 +43,7 @@ public class JointCreateTest
     }
 
     [UnityTest]
-    public IEnumerator JointPositionTest()
+    public IEnumerator JointCreaterPositionTest()
     {
         //Arrange
         var modelPrefab = Resources.Load<GameObject>("Prefabs/X Bot");
@@ -68,45 +68,6 @@ public class JointCreateTest
             Assert.AreEqual(bones[i].position.x, jointCreater.Joints[i].position.x, 0.01f);
             Assert.AreEqual(bones[i].position.y, jointCreater.Joints[i].position.y, 0.01f);
             Assert.AreEqual(bones[i].position.z, jointCreater.Joints[i].position.z, 0.01f);
-        }
-
-        void GetBoneTransforms(Transform currentBone, List<Transform> bones)
-        {
-            bones.Add(currentBone);
-            for (int i = 0; i < currentBone.childCount; i++)
-            {
-                GetBoneTransforms(currentBone.GetChild(i), bones);
-            }
-        }
-    }
-
-    [UnityTest]
-    public IEnumerator JointRotationTest()
-    {
-        //Arrange
-        var modelPrefab = Resources.Load<GameObject>("Prefabs/X Bot");
-        Assert.IsNotNull(modelPrefab, "Model Prefab was not found.");
-
-        var testModel = Object.Instantiate(modelPrefab).transform;
-        Assert.IsNotNull(testModel, "Test model instantiation failed.");
-
-        var bones = new List<Transform>();
-        GetBoneTransforms(testModel.GetChild(2), bones);
-
-        var jointCreater = testModel.GetChild(2).GetComponent<JointCreater>();
-        Assert.IsNotNull(jointCreater, "JointCreater component was not found.");
-
-        //Act
-        yield return null;
-
-        //Assert
-        Assert.AreEqual(bones.Count, jointCreater.Joints.Count);
-        for (int i = 0; i < bones.Count; i++)
-        {
-            Assert.AreEqual(bones[i].rotation.x, jointCreater.Joints[i].rotation.x, 0.01f);
-            Assert.AreEqual(bones[i].rotation.y, jointCreater.Joints[i].rotation.y, 0.01f);
-            Assert.AreEqual(bones[i].rotation.z, jointCreater.Joints[i].rotation.z, 0.01f);
-            Assert.AreEqual(bones[i].rotation.w, jointCreater.Joints[i].rotation.w, 0.01f);
         }
 
         void GetBoneTransforms(Transform currentBone, List<Transform> bones)

@@ -1,29 +1,35 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 //최상위 본에 컴포넌트로 붙어야 함.
 public class JointCreater : MonoBehaviour
 {
-    public List<Transform> Joints = new();
+    public List<Joint> Joints = new();
     [SerializeField]
     private GameObject _jointPrefab;
 
     private void Start()
     {
-        CreateJoints(transform, "Joint 0");
+        CreateJoints(transform, null, "Joint 0");
     }
 
-    private void CreateJoints(Transform currentJoint, string jointName)
+    private void CreateJoints(Transform currentBone, Joint latestJoint, string jointName)
     {
-        Transform joint = Instantiate(_jointPrefab).transform;
-        joint.position = currentJoint.position;
-        joint.rotation = currentJoint.rotation;
-        joint.name = jointName;
-        Joints.Add(joint);
-        for (int i = 0; i < currentJoint.childCount; i++)
+        Transform jointTransform = Instantiate(_jointPrefab).transform;
+        jointTransform.position = new Vector3(currentBone.position.x, currentBone.position.y, 0);
+        jointTransform.name = jointName;
+
+        Joint joint = jointTransform.GetComponent<Joint>();
+        joint.TargetBone = currentBone;
+        if(latestJoint != null)
         {
-            CreateJoints(currentJoint.GetChild(i), jointName + "." + i);
+            latestJoint.NextJoints.Add(joint);
+        }
+
+        Joints.Add(joint);
+        for (int i = 0; i < currentBone.childCount; i++)
+        {
+            CreateJoints(currentBone.GetChild(i), joint, jointName + "." + i);
         }
     }
 }

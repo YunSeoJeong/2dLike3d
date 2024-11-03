@@ -65,9 +65,8 @@ public class JointCreateTest
         Assert.AreEqual(bones.Count, jointCreater.Joints.Count);
         for (int i = 0; i < bones.Count; i++)
         {
-            Assert.AreEqual(bones[i].position.x, jointCreater.Joints[i].position.x, 0.01f);
-            Assert.AreEqual(bones[i].position.y, jointCreater.Joints[i].position.y, 0.01f);
-            Assert.AreEqual(bones[i].position.z, jointCreater.Joints[i].position.z, 0.01f);
+            Assert.AreEqual(bones[i].position.x, jointCreater.Joints[i].transform.position.x, 0.01f);
+            Assert.AreEqual(bones[i].position.y, jointCreater.Joints[i].transform.position.y, 0.01f);
         }
 
         void GetBoneTransforms(Transform currentBone, List<Transform> bones)
